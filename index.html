@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f3e9">
+  <title>Nuestra boda | Yessica & Lorenzo</title>
+  <meta name="description" content="Acompañanos a celebrar nuestra boda el 25 de septiembre de 2027.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ivory: #f7f3e9;
+      --paper: #fffdf7;
+      --sage: #7d8768;
+      --sage-dark: #46523c;
+      --olive: #69734f;
+      --gold: #b59a5b;
+      --ink: #33382d;
+      --muted: #77796c;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: var(--ink); background: var(--ivory);
+      font-family: "Cormorant Garamond", Georgia, serif; font-size: 19px;
+      line-height: 1.5;
+    }
+    button, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .hero {
+      min-height: 100svh; display: grid; place-items: center; padding: 28px 16px;
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse at top, #fffdf8 0%, var(--ivory) 68%);
+    }
+    .hero::before, .hero::after {
+      content: "❧"; position: absolute; color: #a5ad91; opacity: .5;
+      font-size: clamp(100px, 22vw, 230px); line-height: 1; pointer-events: none;
+    }
+    .hero::before { top: 12px; left: -25px; transform: rotate(-35deg); }
+    .hero::after { right: -25px; bottom: 8px; transform: rotate(145deg); }
+    .hero-inner { width: min(100%, 520px); text-align: center; position: relative; z-index: 1; }
+    .eyebrow { letter-spacing: .22em; text-transform: uppercase; font-size: 13px; color: var(--sage-dark); }
+    .quote { font-style: italic; max-width: 330px; margin: 18px auto 24px; }
+    .envelope-wrap { width: min(82vw, 350px); margin: 0 auto 22px; perspective: 1000px; cursor: pointer; }
+    .envelope {
+      height: 225px; position: relative; background: #788264; border-radius: 3px 3px 8px 8px;
+      box-shadow: 0 18px 35px #4b533522; overflow: visible; isolation: isolate;
+    }
+    .envelope-back { position: absolute; inset: 0; background: #687453; border-radius: inherit; }
+    .letter {
+      position: absolute; z-index: 1; left: 7%; width: 86%; height: 190px; bottom: 10px;
+      padding: 20px 10px; background: var(--paper); border: 1px solid #d7cda9;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      transition: transform 1s cubic-bezier(.2,.7,.2,1), bottom 1s;
+      box-shadow: 0 3px 10px #00000010;
+    }
+    .letter .script { font-family: "Great Vibes", cursive; font-size: 42px; color: var(--sage-dark); line-height: 1.1; }
+    .letter small { letter-spacing: .13em; text-transform: uppercase; font-size: 11px; }
+    .letter .date { margin-top: 9px; font-size: 14px; }
+    .flap {
+      position: absolute; z-index: 3; top: 0; left: 0; width: 100%; height: 58%;
+      background: #899374; clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center; transition: transform .8s ease; backface-visibility: hidden;
+    }
+    .pocket {
+      position: absolute; z-index: 2; inset: 0;
+      background: linear-gradient(140deg, transparent 49.5%, #697553 50%) left/50% 100% no-repeat,
+                  linear-gradient(220deg, transparent 49.5%, #758061 50%) right/50% 100% no-repeat;
+      clip-path: polygon(0 0, 50% 55%, 100% 0, 100% 100%, 0 100%);
+    }
+    .seal {
+      position: absolute; z-index: 4; top: 48%; left: 50%; transform: translate(-50%, -50%);
+      width: 49px; height: 49px; border-radius: 50%; display: grid; place-items: center;
+      background: radial-gradient(circle at 30% 25%, #d8c58e, #9f8242);
+      color: #fff7dc; border: 2px solid #d8c58e; box-shadow: 0 2px 6px #0002; font-size: 22px;
+      transition: opacity .3s, transform .3s;
+    }
+    .envelope.open .flap { transform: rotateX(180deg); z-index: 0; }
+    .envelope.open .letter { transform: translateY(-125px); bottom: 18px; }
+    .envelope.open .seal { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+    .tap-hint { color: var(--muted); font-size: 15px; margin: 0; }
+    .primary, .secondary {
+      display: inline-block; border: 0; border-radius: 30px; padding: 12px 24px; cursor: pointer;
+      text-decoration: none; transition: transform .2s, background .2s; font-size: 17px;
+    }
+    .primary { color: white; background: var(--sage-dark); }
+    .secondary { color: var(--sage-dark); border: 1px solid var(--sage); background: transparent; }
+    .primary:hover, .secondary:hover { transform: translateY(-2px); }
+    .section { padding: 70px 18px; text-align: center; }
+    .section:nth-child(even) { background: #eeeee3; }
+    .content { width: min(100%, 720px); margin: auto; }
+    .section-label { color: var(--sage-dark); text-transform: uppercase; letter-spacing: .2em; font-size: 12px; }
+    h1, h2, p { margin-top: 0; }
+    h1 { font-weight: 400; font-size: clamp(42px, 9vw, 68px); line-height: 1.05; margin: 14px 0; }
+    h2 { font-size: clamp(30px, 6vw, 42px); font-weight: 400; margin: 8px 0 22px; }
+    .script { font-family: "Great Vibes", cursive; }
+    .names { color: var(--sage-dark); }
+    .ampersand { color: var(--gold); font-size: .7em; }
+    .divider { color: var(--gold); letter-spacing: .5em; margin: 18px 0; }
+    .date-big { font-size: 27px; color: var(--sage-dark); }
+    .countdown { display: flex; justify-content: center; gap: 10px; margin: 26px auto 0; flex-wrap: wrap; }
+    .count-box { background: #fffdf7cc; border: 1px solid #d9d7c5; border-radius: 8px; padding: 12px 10px; min-width: 75px; }
+    .count-box strong { display: block; font-size: 27px; font-weight: 500; line-height: 1.1; }
+    .count-box span { font-size: 13px; color: var(--muted); }
+    .event-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin-top: 28px; }
+    .event-card { background: var(--paper); border: 1px solid #e2ddcc; border-radius: 12px; padding: 25px 15px; }
+    .event-icon { font-size: 30px; color: var(--olive); }
+    .event-card h3 { font-size: 25px; font-weight: 500; margin: 8px 0; }
+    .event-card p { margin-bottom: 14px; }
+    .small-note { color: var(--muted); font-size: 16px; }
+    .timeline { text-align: left; max-width: 430px; margin: 26px auto 0; border-left: 1px solid #a5ad91; padding-left: 22px; }
+    .timeline-item { margin: 0 0 22px; position: relative; }
+    .timeline-item::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); position: absolute; left: -28px; top: 8px; }
+    .timeline-item strong { display: block; color: var(--sage-dark); }
+    .notice-list { list-style: none; padding: 0; margin: 20px auto 0; max-width: 430px; }
+    .notice-list li { padding: 12px 0; border-bottom: 1px solid #d9d7c5; }
+    .rsvp-form { text-align: left; background: var(--paper); padding: 24px; border-radius: 14px; border: 1px solid #e2ddcc; margin: 24px auto 0; max-width: 520px; }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; margin-bottom: 5px; font-size: 16px; }
+    .field input, .field select, .field textarea {
+      width: 100%; padding: 11px 12px; border: 1px solid #c9cbb9; border-radius: 7px;
+      background: white; color: var(--ink); font-size: 17px;
+    }
+    .field textarea { min-height: 85px; resize: vertical; }
+    .rsvp-form .primary { width: 100%; }
+    footer { padding: 45px 18px 55px; text-align: center; background: var(--sage-dark); color: #f7f3e9; }
+    footer .script { font-size: 44px; }
+    .footer-date { letter-spacing: .16em; font-size: 13px; }
+    @media (max-width: 560px) {
+      .section { padding: 56px 16px; }
+      .event-grid { grid-template-columns: 1fr; }
+      .envelope { height: 205px; }
+      .envelope.open .letter { transform: translateY(-112px); }
+      .rsvp-form { padding: 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="inicio">
+    <div class="hero-inner">
+      <p class="eyebrow">Una invitación especial</p>
+      <p class="quote">“Dos almas, un mismo camino y una vida entera para amarse.”</p>
+      <div class="envelope-wrap" id="envelopeWrap" role="button" tabindex="0" aria-label="Abrir invitación">
+        <div class="envelope" id="envelope">
+          <div class="envelope-back"></div>
+          <div class="letter">
+            <small>Nuestra boda</small>
+            <div class="script">Yessica <span class="ampersand">&</span><br>Lorenzo</div>
+            <div class="divider">♥</div>
+            <div class="date">25 · septiembre · 2027</div>
+          </div>
+          <div class="flap"></div>
+          <div class="pocket"></div>
+          <div class="seal">♥</div>
+        </div>
+      </div>
+      <p class="tap-hint" id="tapHint">Tocá el sobre para abrir nuestra invitación</p>
+      <button class="primary" id="openButton" type="button" style="margin-top:18px">Abrir invitación ♥</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="section" id="detalles">
+      <div class="content">
+        <p class="section-label">Con mucha alegría</p>
+        <h1 class="names script">Yessica <span class="ampersand">&</span> Lorenzo</h1>
+        <p>Queremos invitarte a compartir el comienzo de nuestra historia para siempre.</p>
+        <div class="divider">✦ ♥ ✦</div>
+        <p class="date-big">Sábado, 25 de septiembre de 2027</p>
+        <div class="countdown" aria-label="Cuenta regresiva">
+          <div class="count-box"><strong id="days">—</strong><span>Días</span></div>
+          <div class="count-box"><strong id="hours">—</strong><span>Horas</span></div>
+          <div class="count-box"><strong id="minutes">—</strong><span>Minutos</span></div>
+          <div class="count-box"><strong id="seconds">—</strong><span>Segundos</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="lugares">
+      <div class="content">
+        <p class="section-label">Nos casamos</p>
+        <h2>La ceremonia & la celebración</h2>
+        <div class="event-grid">
+          <article class="event-card">
+            <div class="event-icon">♧</div>
+            <h3> ceremonia religiosa</h3>
+            <p><strong>19:00 hs</strong><br>Iglesia Inmaculada Concepción de María<br>Carapeguá</p>
+            <a class="secondary" href="https://www.google.com/maps/search/?api=1&query=Iglesia+Inmaculada+Concepcion+de+Maria+Carapegua+Paraguay" target="_blank" rel="noopener">Ver ubicación ↗</a>
+          </article>
+          <article class="event-card">
+            <div class="event-icon">♧</div>
+            <h3>Recepción</h3>
+            <p><strong>A continuación de la misa</strong><br>Hotel Corona Suite<br>Carapeguá</p>
+            <a class="secondary" href="https://www.google.com/maps/search/?api=1&query=Hotel+Corona+Suite+Carapegua+Paraguay" target="_blank" rel="noopener">Ver ubicación ↗</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="itinerario">
+      <div class="content">
+        <p class="section-label">Ese día especial</p>
+        <h2>Itinerario</h2>
+        <p class="small-note">Los horarios de la recepción se pueden ajustar más adelante.</p>
+        <div class="timeline">
+          <div class="timeline-item"><strong>19:00 hs</strong>Ceremonia religiosa</div>
+          <div class="timeline-item"><strong>A continuación</strong>Recepción y bienvenida</div>
+          <div class="timeline-item"><strong>Más tarde</strong>Cena, brindis y fiesta</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="importante">
+      <div class="content">
+        <p class="section-label">A tener en cuenta</p>
+        <h2>Información importante</h2>
+        <ul class="notice-list">
+          <li>♡ Evento exclusivo para adultos; no se permiten niños.</li>
+          <li>♡ Código de vestimenta: formal.</li>
+          <li>♡ Tu compañía es nuestro mejor regalo.</li>
+        </ul>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer>
+    <p class="script">Yessica & Lorenzo</p>
+    <p class="footer-date">25 · SEPTIEMBRE · 2027</p>
+    <p>Gracias por ser parte de nuestra historia. ♥</p>
+  </footer>
+
+  <script>
+    /*
+      CONFIRMALIA:
+      Cada invitado debe abrir su propia versión del enlace de esta invitación.
+      Agregá su portal personal como parámetro ?portal= al final de la URL.
+      Ejemplo:
+      https://TU-SITIO.netlify.app/?portal=https%3A%2F%2Fp.confirmalia.com%2FbAYFhK
+
+      No uses el enlace de Anahí para todos los invitados: cada persona debe tener
+      su propio enlace personal de Confirmalia.
+    */
+
+    const envelope = document.getElementById("envelope");
+    const openButton = document.getElementById("openButton");
+    const tapHint = document.getElementById("tapHint");
+    const envelopeWrap = document.getElementById("envelopeWrap");
+
+    function openEnvelope() {
+      const isOpen = envelope.classList.toggle("open");
+      tapHint.textContent = isOpen
+        ? "¡Nuestra invitación está abierta! Deslizá para ver los detalles."
+        : "Tocá el sobre para abrir nuestra invitación";
+      openButton.textContent = isOpen ? "Sobre abierto ♥" : "Abrir invitación ♥";
+      if (isOpen) {
+        setTimeout(() => document.getElementById("detalles").scrollIntoView({ behavior: "smooth" }), 650);
+      }
+    }
+    openButton.addEventListener("click", openEnvelope);
+    envelopeWrap.addEventListener("click", openEnvelope);
+    envelopeWrap.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openEnvelope();
+      }
+    });
+
+    // Cuenta regresiva hasta las 19:00 de Paraguay (UTC-3).
+    const weddingDate = new Date("2027-09-25T19:00:00-03:00");
+    function updateCountdown() {
+      const difference = Math.max(0, weddingDate.getTime() - Date.now());
+      document.getElementById("days").textContent = Math.floor(difference / 86400000);
+      document.getElementById("hours").textContent = Math.floor((difference % 86400000) / 3600000);
+      document.getElementById("minutes").textContent = Math.floor((difference % 3600000) / 60000);
+      document.getElementById("seconds").textContent = Math.floor((difference % 60000) / 1000);
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    document.getElementById("rsvpForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (WHATSAPP_NUMBER.includes("X")) {
+        alert("Antes de usar la confirmación, editá WHATSAPP_NUMBER en el archivo index.html y colocá tu número con código de país.");
+        return;
+      }
+      const name = document.getElementById("guestName").value.trim();
+      const answer = attendance.value;
+      const message = document.getElementById("message").value.trim();
+      const text = [
+        "¡Hola! Confirmación para la boda de Yessica y Lorenzo 💚",
+        "",
+        "Nombre: " + name,
+        "Respuesta: " + answer,
+        message ? "Mensaje: " + message : ""
+      ].filter(Boolean).join("\n");
+      const url = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(text);
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+  </script>
+</body>
+</html>
